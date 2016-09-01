@@ -1,0 +1,33 @@
+- (IBAction)verAction:(id)sender {
+    if (StringIsNullOrEmpty(self.tfPhone_sign.text)) {
+        showCustomAlertMessage(@"手机号不能为空");
+        return;
+    }
+    NSString * callBackStr = IsValidMobeilTel([self.tfPhone_sign.text UTF8String]);
+    if (![callBackStr isEqualToString:@"1"]) {
+        showCustomAlertMessage(callBackStr);
+        return;
+    }
+    IMP_BLOCK_SELF(FindPSWViewController);
+    [[GlobalNetManger sharedGlobalNetManger]getPhoneCode:self.tfPhone_sign.text type:@"1" block:^(id sender) {
+        
+        block_self.btnVer.userInteractionEnabled = NO;
+        [block_self countTimeAction];
+    } vc:self];
+}
+- (void)countTimeAction{
+    if (self.timer == nil) {
+        self.timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(countTimeAction) userInfo:nil repeats:YES];
+        count = 60;
+        return;
+    }
+    if (count == 0) {
+        self.btnVer.userInteractionEnabled = YES;
+        [self.timer invalidate];
+        self.timer = nil;
+        [self.btnVer setTitle:@"发送验证码" forState:UIControlStateNormal];
+        return;
+    }
+    [self.btnVer setTitle:S(@"%d",count) forState:UIControlStateNormal];
+    count --;
+}
