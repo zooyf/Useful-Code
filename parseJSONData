@@ -1,0 +1,23 @@
++ (id)parseJSONData:(NSData *)data error:(NSError **)error {
+    
+    if (data == nil) {
+        
+        return nil;
+    }
+    
+    if ([data isKindOfClass:[NSDictionary class]] || [data isKindOfClass:[NSArray class]]) {
+        return data;
+    }
+    
+    NSError *parseError = nil;
+    
+    //id result = [data objectFromJSONDataWithParseOptions:JKParseOptionStrict error:&parseError];
+    id result = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&parseError];
+    
+    if (parseError && (error != nil)) {
+        
+        *error = parseError;
+    }
+    
+    return result;
+}
