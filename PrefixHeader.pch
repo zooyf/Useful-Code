@@ -1,0 +1,25 @@
+//
+//  PrefixHeader.pch
+//  BabyWatcher
+//
+//  Created by YesterdayFinder on 16/1/11.
+//  Copyright © 2016年 Bruce. All rights reserved.
+//
+
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+
+
+#import "Static.h"
+#import "UIViewController+PresentedVC.h"
+// 友盟统计
+#import <MobClick.h>
+#import "YFEasyHUD.h"
+
+// release模式屏蔽NSLog()输出
+#ifndef DEBUG
+#undef NSLog
+#define NSLog(args, ...)
+#endif
+
+#endif /* PrefixHeader_pch */
